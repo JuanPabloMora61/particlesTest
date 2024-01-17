@@ -4,6 +4,15 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let atoms = [];
+let paused = false;
+
+
+
+window.addEventListener('keydown', (e) => {
+    if(e.code === "Space"){
+        paused = !paused
+    }
+});
 
 canvas.addEventListener('click', (e) => {
     for (let i = 0; i < 100; i++) {
@@ -41,32 +50,35 @@ let ultimoTiempo = 0;
 const FPS = 60;
 
 const animate = (tiempoActual) => {
+    if(!paused){
 
-    tiempoActual *= 0.001;
-    const deltaTiempo = tiempoActual - ultimoTiempo;
-
-    if(deltaTiempo > 1 / FPS){
-
-        ultimoTiempo = tiempoActual;
-
-        atoms.forEach(atom => {
-            atom.draw();
-            atom.updateSpeed();
-            atom.updateSize();
+        tiempoActual *= 0.001;
+        const deltaTiempo = tiempoActual - ultimoTiempo;
     
-            if ( atom.radious < 0.3 ){
-                atoms.splice(atoms.indexOf(atom), 1)
-            }
-        });
+        if(deltaTiempo > 1 / FPS){
     
-        ctx.save();
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.restore();
+            ultimoTiempo = tiempoActual;
+    
+            atoms.forEach(atom => {
+                atom.draw();
+                atom.updateSpeed();
+                atom.updateSize();
+        
+                if ( atom.radious < 0.3 ){
+                    atoms.splice(atoms.indexOf(atom), 1)
+                }
+            });
+        
+            ctx.save();
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.restore();
+        }
+        
+    
+        requestAnimationFrame(animate);
     }
-    
 
-    requestAnimationFrame(animate);
 };
 
 class Atom {
