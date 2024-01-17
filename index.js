@@ -11,6 +11,7 @@ let paused = false;
 window.addEventListener('keydown', (e) => {
     if(e.code === "Space"){
         paused = !paused
+        animate();
     }
 });
 
