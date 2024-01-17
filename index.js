@@ -19,6 +19,24 @@ canvas.addEventListener('mousemove', (e) => {
     animate();
 });
 
+canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    let touch = e.touches[0];
+    for (let i = 0; i < 100; i++) {
+        atoms.push(new Atom(touch.clientX, touch.clientY));
+    }
+    animate();
+}, false);
+
+canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    let touch = e.touches[0];
+    for (let i = 0; i < 20; i++) {
+        atoms.push(new Atom(touch.clientX, touch.clientY));
+    }
+    animate();
+}, false);
+
 let ultimoTiempo = 0;
 const FPS = 60;
 
